@@ -4,30 +4,42 @@ class CourseController {
 	async addCourse(req, res, next) {
 		try {
 			const courseData = await courseService.addCourse(req.body);
-			return res.json(courseData);
+			return res.json({
+				success: true, payload: courseData, errors: false,
+			});
 		}
 		catch (e) {
-			next(e);
+			return res.json({
+				success: false, payload: [], errors: e,
+			});
 		}
 	}
-	
+
 	async getCourses(req, res, next) {
 		try {
 			const courses = await courseService.getAllCourses();
-			return res.json(courses);
+			return res.json({
+				success: true, payload: courses, errors: false,
+			});
 		}
 		catch (e) {
-			next(e);
+			return res.json({
+				success: false, payload: [], errors: e,
+			});
 		}
 	}
 
 	async updateCourse(req, res, next) {
 		try {
 			const course = await courseService.updateCourse(req.body);
-			return res.json(course);
+			return res.json(
+				{ success: true, payload: course, errors: false },
+			);
 		}
 		catch (e) {
-			next(e);
+			return res.json({
+				success: false, payload: [], errors: e,
+			});
 		}
 	}
 
@@ -36,13 +48,17 @@ class CourseController {
 			if (req.body.id) {
 				let course = await courseService.getCourse(req.body.id);
 
-				return res.json(course);
+				return res.json(
+					{ success: true, payload: course, errors: false },
+				);
 			} else {
-				next();
+				return res.status('200').json(`Курс отсутствует`);
 			}
 		}
 		catch (e) {
-			next(e);
+			return res.json({
+				success: false, payload: [], errors: e,
+			});
 		}
 	}
 
@@ -52,7 +68,9 @@ class CourseController {
 			return res.status('200').json(`Курс удален`);
 		}
 		catch (e) {
-			next(e);
+			return res.json({
+				success: false, payload: [], errors: e,
+			});
 		}
 	}
 }
