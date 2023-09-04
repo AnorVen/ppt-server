@@ -21,8 +21,10 @@ app.set('views', 'views');
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-	credentials: true,
-	origin: '*',
+	"origin": "*",
+	"methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+	"preflightContinue": false,
+	"optionsSuccessStatus": 204
 }));
 app.use('/api', router);
 app.use('/api/user', user)
