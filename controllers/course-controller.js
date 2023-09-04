@@ -46,6 +46,7 @@ class CourseController {
 	async getCourse(req, res, next) {
 		try {
 			if (req.body.id) {
+				console.log('req.body.id', req.body.id);
 				let course = await courseService.getCourse(req.body.id);
 
 				return res.json(

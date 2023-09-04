@@ -28,6 +28,7 @@
     "debug": "^2.6.9",
     "depd": "^2.0.0",
     "destroy": "^1.2.0",
+    "dotenv": "^10.0.0",
     "ee-first": "^1.1.1",
     "encodeurl": "^1.0.2",
     "escape-html": "^1.0.3",
@@ -111,8 +112,7 @@
     "uuid": "^9.0.0",
     "vary": "^1.1.2",
     "webidl-conversions": "^7.0.0",
-    "whatwg-url": "^11.0.0",
-    "dotenv": "^10.0.0"
+    "whatwg-url": "^11.0.0"
   },
   "scripts": {
     "test": "test",

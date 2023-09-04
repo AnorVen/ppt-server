@@ -11,8 +11,10 @@ class CourseService {
 		return courses;
 	};
 
-	getCourse = async ({ id }) => {
+	getCourse = async (id) => {
+		console.log('id', id);
 		const course = await CourseModel.findById(id).exec();
+		console.log('course', course);
 		return course;
 	};
 
@@ -25,7 +27,7 @@ class CourseService {
 
 	deleteCourse = async (id) => {
 		const finderCourse = await CourseModel.findByIdAndDelete(id).exec();
-
+		return true
 	};
 }
 
