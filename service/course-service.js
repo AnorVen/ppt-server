@@ -12,16 +12,12 @@ class CourseService {
 	};
 
 	getCourse = async (id) => {
-		console.log('id', id);
 		const course = await CourseModel.findById(id).exec();
-		console.log('course', course);
 		return course;
 	};
 
 	updateCourse = async (course) => {
-		const newCourse = await CourseModel.findOneAndUpdate({ _id: course.id }, { ...course }, {
-			new: true,
-		});
+		const newCourse = await CourseModel.findOneAndUpdate({ _id: course.id }, { ...course });
 		return newCourse;
 	};
 
