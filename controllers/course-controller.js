@@ -53,7 +53,7 @@ class CourseController {
 					{ success: true, payload: course, errors: false },
 				);
 			} else {
-				return res.status('200').json(`Курс отсутствует`);
+				return res.status(200).json(`Курс отсутствует`);
 			}
 		}
 		catch (e) {
@@ -66,7 +66,7 @@ class CourseController {
 	async deleteCourse(req, res, next) {
 		try {
 			await courseService.deleteCourse(req.body.id);
-			return res.status('200').json(`Курс удален`);
+			return res.status(200).json(`Курс удален`);
 		}
 		catch (e) {
 			return res.json({

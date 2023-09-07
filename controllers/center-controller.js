@@ -51,7 +51,7 @@ class CenterController {
 	async deleteCenter(req, res, next) {
 		try {
 			await centerService.deleteCenter(req.body.id);
-			return res.status('200').json(`Центр ${req.body.title} удален`);
+			return res.status(200).json(`Центр ${req.body.title} удален`);
 		}
 		catch (e) {
 			next(e);

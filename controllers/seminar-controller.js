@@ -51,7 +51,7 @@ class SeminarController{
 	async deleteSeminar(req, res, next) {
 		try {
 			await seminarService.deleteSeminar(req.body.id);
-			return res.status('200').json(`Семинар ${req.body.surname} ${req.body.name} удален`);
+			return res.status(200).json(`Семинар ${req.body.surname} ${req.body.name} удален`);
 		}
 		catch (e) {
 			next(e);

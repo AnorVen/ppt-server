@@ -53,7 +53,7 @@ class CityController {
 					{ success: true, payload: city, errors: false },
 				);
 			} else {
-				return res.status('200').json(`Город отсутствует`);
+				return res.status(200).json(`Город отсутствует`);
 			}
 		}
 		catch (e) {
@@ -66,7 +66,7 @@ class CityController {
 	async deleteCity(req, res, next) {
 		try {
 			await cityService.deleteCity(req.body.id);
-			return res.status('200').json(`Город удален`);
+			return res.status(200).json(`Город удален`);
 		}
 		catch (e) {
 			return res.json({
