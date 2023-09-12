@@ -46,8 +46,8 @@ class CityController {
 	async getCity(req, res, next) {
 		try {
 			if (req.body.id) {
-				console.log('req.body.id', req.body.id);
-				let city = await cityService.getCity(req.body.id);
+				console.log('req.body.id', req.body._id);
+				let city = await cityService.getCity(req.body._id);
 
 				return res.json(
 					{ success: true, payload: city, errors: false },
@@ -65,7 +65,7 @@ class CityController {
 
 	async deleteCity(req, res, next) {
 		try {
-			await cityService.deleteCity(req.body.id);
+			await cityService.deleteCity(req.body._id);
 			return res.status(200).json(`Город удален`);
 		}
 		catch (e) {

@@ -21,6 +21,7 @@ class UserService {
 			password: hashPassword,
 			superUser: newUser.superUser || false,
 			master: newUser.master || false,
+			type: newUser.type || 'trainer',
 		});
 
 		const userDto = new UserDto(user); // id, email, isActivated
@@ -63,7 +64,13 @@ class UserService {
 	}
 
 	updateUser = async (user) =>{
-		const newUser = await UserModel.findOneAndUpdate({_id: user.id}, {...user}, {
+		const newUser = await UserModel.findOneAndUpdate({_id: user._id}, {...user}, {
+			new: true
+		});
+		return newUser;
+	}
+	updateUsers = async (users) => {
+		const newUser = await UserModel.findOneAndUpdate({_id: user._id}, {...user}, {
 			new: true
 		});
 		return newUser;

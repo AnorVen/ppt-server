@@ -17,13 +17,13 @@ class CenterService {
 		return centers;
 	}
 
-	async getCenter({id}) {
+	async getCenter(id) {
 		const center = await CenterModel.findById(id).exec();
 		return center;
 	}
 
 	updateCenter = async (center) =>{
-		const newCenter = await CenterModel.findOneAndUpdate({_id: center.id}, {...center}, {
+		const newCenter = await CenterModel.findOneAndUpdate({_id: center._id}, {...center}, {
 			new: true
 		});
 		return newCenter;

@@ -35,8 +35,8 @@ class CenterController {
 
 	async getCenter(req, res, next) {
 		try {
-			if (req.body.id) {
-				let center = await centerService.getCenter(req.body.id);
+			if (req.body._id) {
+				let center = await centerService.getCenter(req.body._id);
 
 				return res.json(center);
 			} else {
@@ -50,7 +50,7 @@ class CenterController {
 
 	async deleteCenter(req, res, next) {
 		try {
-			await centerService.deleteCenter(req.body.id);
+			await centerService.deleteCenter(req.body._id);
 			return res.status(200).json(`Центр ${req.body.title} удален`);
 		}
 		catch (e) {

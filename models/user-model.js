@@ -13,6 +13,7 @@ const UserSchema = new Schema({
     certificate: {type: String, required: false},
     master: {type: Boolean, required: false},
     superUser: {type: Boolean, required: true},
+    type: {type: String, required: true},
 })
 
 export const UserModel = model('User', UserSchema, 'users');

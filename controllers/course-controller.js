@@ -45,9 +45,9 @@ class CourseController {
 
 	async getCourse(req, res, next) {
 		try {
-			if (req.body.id) {
-				console.log('req.body.id', req.body.id);
-				let course = await courseService.getCourse(req.body.id);
+			if (req.body._id) {
+				console.log('req.body.id', req.body._id);
+				let course = await courseService.getCourse(req.body._id);
 
 				return res.json(
 					{ success: true, payload: course, errors: false },
@@ -65,7 +65,7 @@ class CourseController {
 
 	async deleteCourse(req, res, next) {
 		try {
-			await courseService.deleteCourse(req.body.id);
+			await courseService.deleteCourse(req.body._id);
 			return res.status(200).json(`Курс удален`);
 		}
 		catch (e) {

@@ -35,9 +35,8 @@ class SeminarController{
 
 	async getSeminar(req, res, next) {
 		try {
-			if (req.body.id) {
-				let seminar = await seminarService.getSeminar(req.body.id);
-
+			if (req.body._id) {
+				let seminar = await seminarService.getSeminar(req.body._id);
 				return res.json(seminar);
 			} else {
 				next();
@@ -50,7 +49,7 @@ class SeminarController{
 
 	async deleteSeminar(req, res, next) {
 		try {
-			await seminarService.deleteSeminar(req.body.id);
+			await seminarService.deleteSeminar(req.body._id);
 			return res.status(200).json(`Семинар ${req.body.surname} ${req.body.name} удален`);
 		}
 		catch (e) {

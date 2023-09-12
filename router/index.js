@@ -9,9 +9,7 @@ import user from './user.js';
 const router = new Router();
 
 router.all('/', (req, res, next)=>{
-	console.log('req', req);
-	console.log(123123);
-	res.status(200).json(`AWF, ${JSON.stringify(req)}`)
+	res.status(200).json(`router /`)
 })
 
 router.post('/login', userController.login);

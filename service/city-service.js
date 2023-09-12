@@ -26,7 +26,7 @@ class CityService {
 
 	updateCity = async (city) => {
 		const name = city.name.toLowerCase()
-		const newCity = await CityModel.findOneAndUpdate({ _id: city.id }, { name }, {
+		const newCity = await CityModel.findOneAndUpdate({ _id: city._id }, { name }, {
 			new: true,
 		});
 		return newCity;
