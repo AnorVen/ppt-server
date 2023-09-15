@@ -19,6 +19,7 @@ router.post('/add',
 );
 router.post('/list',  userController.getUsers);
 router.post('/update',  userController.updateUser);
+router.post('/update.list',  userController.updateUsers);
 router.post('/delete',  userController.deleteUser);
 router.post('/get',  userController.getUser);
 

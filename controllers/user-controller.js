@@ -12,7 +12,7 @@ class UserController {
 			}
 			const userData = await userService.addUser(req.body);
 			res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
-			return res.json(userData);
+			return res.json({ success: true, payload: userData, errors: false });
 		}
 		catch (e) {
 			next(e);
@@ -24,7 +24,7 @@ class UserController {
 			const { email, password } = req.body;
 			const userData = await userService.login(email, password);
 			res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
-			return res.json(userData);
+			return res.json({ success: true, payload: userData, errors: false });
 		}
 		catch (e) {
 			next(e);
@@ -36,7 +36,7 @@ class UserController {
 			const { refreshToken } = req.cookies;
 			const token = await userService.logout(refreshToken);
 			res.clearCookie('refreshToken');
-			return res.json(token);
+			return res.json({ success: true, payload: true, errors: false });
 		}
 		catch (e) {
 			next(e);
@@ -46,7 +46,7 @@ class UserController {
 	async getUsers(req, res, next) {
 		try {
 			const users = await userService.getAllUsers();
-			return res.json(users);
+			return res.json({ success: true, payload: users, errors: false });
 		}
 		catch (e) {
 			next(e);
@@ -56,7 +56,17 @@ class UserController {
 	async updateUser(req, res, next) {
 		try {
 			const user = await userService.updateUser(req.body);
-			return res.json(user);
+			return res.json({ success: true, payload: user, errors: false });
+		}
+		catch (e) {
+			next(e);
+		}
+	}
+	
+	async updateUsers(req, res, next) {
+		try {
+			const users = await userService.updateUsers(req.body);
+			return res.json({ success: true, payload: users, errors: false });
 		}
 		catch (e) {
 			next(e);
@@ -68,7 +78,7 @@ class UserController {
 			if (req.body.id) {
 				let user = await userService.getUser(req.body._id);
 
-				return res.json(user);
+				return res.json({ success: true, payload: user, errors: false });
 			} else {
 				next();
 			}
