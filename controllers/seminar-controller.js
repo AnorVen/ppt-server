@@ -6,7 +6,7 @@ class SeminarController{
 	async addSeminar(req, res, next) {
 		try {
 			const seminarData = await seminarService.addSeminar(req.body);
-			return res.json(seminarData);
+			return res.json({ success: true, payload: seminarData, errors: false });
 		}
 		catch (e) {
 			next(e);
@@ -16,7 +16,7 @@ class SeminarController{
 	async getSeminars(req, res, next) {
 		try {
 			const seminars = await seminarService.getAllSeminars();
-			return res.json(seminars);
+			return res.json({ success: true, payload: seminars, errors: false });
 		}
 		catch (e) {
 			next(e);
@@ -26,7 +26,7 @@ class SeminarController{
 	async updateSeminar(req, res, next) {
 		try {
 			const seminar = await seminarService.updateSeminar(req.body);
-			return res.json(seminar);
+			return res.json({ success: true, payload: seminar, errors: false });
 		}
 		catch (e) {
 			next(e);
@@ -37,7 +37,7 @@ class SeminarController{
 		try {
 			if (req.body._id) {
 				let seminar = await seminarService.getSeminar(req.body._id);
-				return res.json(seminar);
+				return res.json({ success: true, payload: seminar, errors: false });
 			} else {
 				next();
 			}

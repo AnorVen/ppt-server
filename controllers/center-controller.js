@@ -6,7 +6,7 @@ class CenterController {
 	async addCenter(req, res, next) {
 		try {
 			const centerData = await centerService.addCenter(req.body);
-			return res.json(centerData);
+			return res.json({ success: true, payload: centerData, errors: false });
 		}
 		catch (e) {
 			next(e);
@@ -16,7 +16,7 @@ class CenterController {
 	async getCenters(req, res, next) {
 		try {
 			const centers = await centerService.getAllCenters();
-			return res.json(centers);
+			return res.json({ success: true, payload: centers, errors: false });
 		}
 		catch (e) {
 			next(e);
@@ -26,7 +26,7 @@ class CenterController {
 	async updateCenter(req, res, next) {
 		try {
 			const center = await centerService.updateCenter(req.body);
-			return res.json(center);
+			return res.json({ success: true, payload: center, errors: false });
 		}
 		catch (e) {
 			next(e);
@@ -38,7 +38,7 @@ class CenterController {
 			if (req.body._id) {
 				let center = await centerService.getCenter(req.body._id);
 
-				return res.json(center);
+				return res.json({ success: true, payload: center, errors: false });
 			} else {
 				next();
 			}

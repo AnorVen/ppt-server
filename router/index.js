@@ -9,10 +9,12 @@ import user from './user.js';
 const router = new Router();
 
 router.all('/', (req, res, next)=>{
-	res.status(200).json(`router /`)
+	res.status(200).json(`router/`)
 })
 
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
+router.post('/refresh', userController.refresh);
+router.post('/registration', userController.registration);
 
 export default router
