@@ -15,6 +15,6 @@ router.all('/', (req, res, next)=>{
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.post('/refresh', userController.refresh);
-router.post('/registration', userController.registration);
+router.post('/registration', userController.addUser);
 
 export default router

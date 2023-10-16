@@ -19,13 +19,16 @@ const app = express()
 app.set('views', 'views');
 
 app.use(express.json());
-app.use(cookieParser());
-app.use(cors({
+app.use(cookieParser('secret key123331234'));
+const corsConfig = {
 	"origin": "*",
 	"methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
 	"preflightContinue": false,
-	"optionsSuccessStatus": 204
-}));
+	"optionsSuccessStatus": 204,
+	credentials: true,
+};
+app.use(cors(corsConfig));
+app.options('*', cors(corsConfig))
 app.use('/api', router);
 app.use('/api/user', user)
 app.use('/api/course', course)

@@ -10,6 +10,7 @@ class CourseService {
 		const courses = await CourseModel.find();
 		return courses;
 	};
+
 	getCourse = async (id) => {
 		const course = await CourseModel.findById(id).exec();
 		return course;

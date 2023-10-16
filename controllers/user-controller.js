@@ -1,9 +1,20 @@
-import { bd } from '../database/index.js';
-import { userService } from '../service/user-service.js';
 import { validationResult } from 'express-validator';
 import { ApiError } from '../exceptions/api-error.js';
+import { userService } from '../service/user-service.js';
 
 class UserController {
+	async refresh(req, res, next) {
+		try {
+			const { refreshToken } = req;
+			const userData = await userService.refresh(refreshToken);
+			res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
+			return res.json(userData);
+		}
+		catch (e) {
+			next(e);
+		}
+	}
+
 	async addUser(req, res, next) {
 		try {
 			const errors = validationResult(req);
@@ -23,7 +34,10 @@ class UserController {
 		try {
 			const { email, password } = req.body;
 			const userData = await userService.login(email, password);
-			res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
+			res.cookie('refreshToken', userData.refreshToken, {
+				maxAge: 30 * 24 * 60 * 60 * 1000,
+				httpOnly: true,
+			});
 			return res.json({ success: true, payload: userData, errors: false });
 		}
 		catch (e) {
@@ -62,7 +76,7 @@ class UserController {
 			next(e);
 		}
 	}
-	
+
 	async updateUsers(req, res, next) {
 		try {
 			const users = await userService.updateUsers(req.body);
@@ -74,7 +88,6 @@ class UserController {
 	}
 
 	async getUser(req, res, next) {
-		console.log('getUser', req.body);
 		try {
 			if (req.body.id) {
 				console.log('getUser', req.body.id);
