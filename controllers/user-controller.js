@@ -60,7 +60,7 @@ class UserController {
 	async getUsers(req, res, next) {
 		try {
 			const users = await userService.getAllUsers();
-			return res.json({ success: true, payload: users.filter(user => !user.superUser), errors: false });
+			return res.json({ success: true, payload: users, errors: false });
 		}
 		catch (e) {
 			next(e);

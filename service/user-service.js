@@ -73,26 +73,28 @@ class UserService {
 
 	async getAllUsers() {
 		const users = await UserModel.find();
-		return users;
+		return users.map(user => new UserDto(user));
 	}
 
 	async getUser(id) {
 		let user = await UserModel.findById(id).exec();
-		delete user.password
-		delete user.superUser
-		return user;
+		return new UserDto(user);
 	}
 
 	updateUser = async (user) =>{
-		const newUser = await UserModel.findOneAndUpdate({_id: user._id}, {...user}, {
-			new: true
-		});
-		return newUser;
+		console.log('user',user);
+		const newUser = await UserModel.findOneAndUpdate({_id: user.id}, {...user});
+		console.log('newUser', newUser);
+		return new UserDto(newUser);
 	}
+
+
+
+
+
 	updateUsers = async (users) => {
-		const newUser = await UserModel.findOneAndUpdate({_id: user._id}, {...user}, {
-			new: true
-		});
+		const newUser = await UserModel.findOneAndUpdate({_id: user._id}, {...user});
+
 		return newUser;
 	}
 
