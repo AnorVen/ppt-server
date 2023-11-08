@@ -1,4 +1,5 @@
 import { validationResult } from 'express-validator';
+import fs from 'fs';
 import { ApiError } from '../exceptions/api-error.js';
 import { userService } from '../service/user-service.js';
 
@@ -60,6 +61,14 @@ class UserController {
 	async getUsers(req, res, next) {
 		try {
 			const users = await userService.getAllUsers();
+			users.forEach(user => {
+				if (fs.existsSync(`public/images/${user.id}/avatar.jpg`)) {
+					user.avatar = `/images/${user.id}/avatar.jpg`
+				} else {
+					user.avatar = `/images/noAva.jpg`
+				}
+				return user
+			})
 			return res.json({ success: true, payload: users, errors: false });
 		}
 		catch (e) {
@@ -92,7 +101,11 @@ class UserController {
 			if (req.body.id) {
 				console.log('getUser', req.body.id);
 				let user = await userService.getUser(req.body.id);
-
+				if (fs.existsSync(`public/images/${user.id}/avatar.jpg`)) {
+					user.avatar = `/images/${user.id}/avatar.jpg`
+				} else {
+					user.avatar = `/images/noAva.jpg`
+				}
 				return res.json({ success: true, payload: user, errors: false });
 			} else {
 				next();

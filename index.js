@@ -11,6 +11,7 @@ import router from './router/index.js'
 import { errorMiddleware } from './middlewares/error-middleware.js';
 import seminar from './router/seminar.js';
 import user from './router/user.js';
+import fileUpload from 'express-fileupload';
 
 dotenv.config()
 const PORT = process.env.PORT || 5000;
@@ -28,6 +29,7 @@ const corsConfig = {
 	credentials: true,
 };
 app.use(cors(corsConfig));
+app.use(fileUpload({}));
 app.options('*', cors(corsConfig))
 app.use('/api', router);
 app.use('/api/user', user)

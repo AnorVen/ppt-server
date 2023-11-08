@@ -1,11 +1,9 @@
-import { log } from 'debug';
-import { UserModel } from '../models/user-model.js';
 import bcrypt from 'bcrypt';
-import { v4 } from 'uuid';
-import { mailService } from './mail-service.js';
-import { tokenService } from './token-service.js';
+import fs from 'fs';
 import { UserDto } from '../dtos/user-dto.js';
 import { ApiError } from '../exceptions/api-error.js';
+import { UserModel } from '../models/user-model.js';
+import { tokenService } from './token-service.js';
 
 class UserService {
 	async addUser(newUser) {
@@ -17,7 +15,8 @@ class UserService {
 		}
 		const hashPassword = await bcrypt.hash(newUser.password, 3);
 
-		const user = await UserModel.create({ ...newUser,
+		const user = await UserModel.create({
+			...newUser,
 			password: hashPassword,
 			superUser: newUser.superUser || false,
 			master: newUser.master || false,
@@ -42,10 +41,10 @@ class UserService {
 		}
 		const user = await UserModel.findById(userData.id);
 		const userDto = new UserDto(user);
-		const tokens = tokenService.generateTokens({...userDto});
+		const tokens = tokenService.generateTokens({ ...userDto });
 
 		await tokenService.saveToken(userDto.id, tokens.refreshToken);
-		return {...tokens, user: userDto}
+		return { ...tokens, user: userDto };
 	}
 
 
@@ -81,26 +80,26 @@ class UserService {
 		return new UserDto(user);
 	}
 
-	updateUser = async (user) =>{
-		console.log('user',user);
-		const newUser = await UserModel.findOneAndUpdate({_id: user.id}, {...user});
+	updateUser = async (user) => {
+		console.log('user', user);
+		const newUser = await UserModel.findOneAndUpdate({ _id: user.id }, { ...user });
+		if (fs.existsSync(`./public/images/${user.id}/newAvatar.jpg`)) {
+			fs.rename(`./public/images/${user.id}/newAvatar.jpg`, `./public/images/${user.id}/avatar.jpg`, () => ({}));
+		}
 		console.log('newUser', newUser);
 		return new UserDto(newUser);
-	}
-
-
-
+	};
 
 
 	updateUsers = async (users) => {
-		const newUser = await UserModel.findOneAndUpdate({_id: user._id}, {...user});
+		const newUser = await UserModel.findOneAndUpdate({ _id: user._id }, { ...user });
 
 		return newUser;
-	}
+	};
 
-	deleteUser = async (id) =>{
+	deleteUser = async (id) => {
 		return await UserModel.findByIdAndDelete(id).exec();
-	}
+	};
 }
 
 export const userService = new UserService();
