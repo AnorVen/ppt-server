@@ -28,7 +28,15 @@ const corsConfig = {
 	credentials: true,
 };
 app.use(cors(corsConfig));
-app.use(fileUpload({}));
+app.use(fileUpload({
+	limits: {
+		fileSize: 5000000
+	},
+	abortOnLimit: false,
+	safeFileNames: true,
+
+}));
+app.use(express.json({limit: '50mb'}));
 app.options('*', cors(corsConfig))
 app.use('/api', router);
 app.use('/api/user', user)

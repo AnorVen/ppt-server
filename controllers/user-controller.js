@@ -95,10 +95,10 @@ class UserController {
 		try {
 			const user = await userService.updateUser(req.body);
 			if (fs.existsSync(`public/images/${user.id}/avatar.jpg`)) {
-				newUser.avatar = `/static/images/${user.id}/avatar.jpg`
+				user.avatar = `/static/images/${user.id}/avatar.jpg`
 			} else {
-				newUser.avatar = `/static/images/noAva.jpg`
-			}
+				user.avatar = `/static/images/noAva.jpg`
+			} 
 
 			return res.json({ success: true, payload: user, errors: false });
 		}
