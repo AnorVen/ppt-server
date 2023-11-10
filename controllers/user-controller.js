@@ -8,6 +8,11 @@ class UserController {
 		try {
 			const { refreshToken } = req;
 			const userData = await userService.refresh(refreshToken);
+			if (fs.existsSync(`public/images/${userData.id}/avatar.jpg`)) {
+				userData.avatar = `/static/images/${userData.id}/avatar.jpg`;
+			} else {
+				userData.avatar = `/static/images/noAva.jpg`;
+			}
 			res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
 			return res.json(userData);
 		}
@@ -23,6 +28,11 @@ class UserController {
 				return next(ApiError.BadRequest('Ошибка при валидации', errors.array()));
 			}
 			const userData = await userService.addUser(req.body);
+			if (fs.existsSync(`public/images/${userData.id}/avatar.jpg`)) {
+				userData.avatar = `/static/images/${userData.id}/avatar.jpg`;
+			} else {
+				userData.avatar = `/static/images/noAva.jpg`;
+			}
 			res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
 			return res.json({ success: true, payload: userData, errors: false });
 		}
@@ -35,6 +45,11 @@ class UserController {
 		try {
 			const { email, password } = req.body;
 			const userData = await userService.login(email, password);
+			if (fs.existsSync(`public/images/${userData.id}/avatar.jpg`)) {
+				userData.avatar = `/static/images/${userData.id}/avatar.jpg`;
+			} else {
+				userData.avatar = `/static/images/noAva.jpg`;
+			}
 			res.cookie('refreshToken', userData.refreshToken, {
 				maxAge: 30 * 24 * 60 * 60 * 1000,
 				httpOnly: true,
@@ -61,11 +76,11 @@ class UserController {
 	async getUsers(req, res, next) {
 		try {
 			const users = await userService.getAllUsers();
-			users.forEach(user => {
+			users.map(user => {
 				if (fs.existsSync(`public/images/${user.id}/avatar.jpg`)) {
-					user.avatar = `/images/${user.id}/avatar.jpg`
+					user.avatar = `/static/images/${user.id}/avatar.jpg`;
 				} else {
-					user.avatar = `/images/noAva.jpg`
+					user.avatar = `/static/images/noAva.jpg`;
 				}
 				return user
 			})
@@ -79,6 +94,12 @@ class UserController {
 	async updateUser(req, res, next) {
 		try {
 			const user = await userService.updateUser(req.body);
+			if (fs.existsSync(`public/images/${user.id}/avatar.jpg`)) {
+				newUser.avatar = `/static/images/${user.id}/avatar.jpg`
+			} else {
+				newUser.avatar = `/static/images/noAva.jpg`
+			}
+
 			return res.json({ success: true, payload: user, errors: false });
 		}
 		catch (e) {
@@ -89,6 +110,12 @@ class UserController {
 	async updateUsers(req, res, next) {
 		try {
 			const users = await userService.updateUsers(req.body);
+			if (fs.existsSync(`public/images/${user.id}/avatar.jpg`)) {
+				newUser.avatar = `/static/images/${user.id}/avatar.jpg`
+			} else {
+				newUser.avatar = `/static/images/noAva.jpg`
+			}
+
 			return res.json({ success: true, payload: users, errors: false });
 		}
 		catch (e) {
@@ -102,9 +129,9 @@ class UserController {
 				console.log('getUser', req.body.id);
 				let user = await userService.getUser(req.body.id);
 				if (fs.existsSync(`public/images/${user.id}/avatar.jpg`)) {
-					user.avatar = `/images/${user.id}/avatar.jpg`
+					user.avatar = `/static/images/${user.id}/avatar.jpg`
 				} else {
-					user.avatar = `/images/noAva.jpg`
+					user.avatar = `/static/images/noAva.jpg`
 				}
 				return res.json({ success: true, payload: user, errors: false });
 			} else {

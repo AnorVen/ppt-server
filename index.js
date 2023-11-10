@@ -18,7 +18,6 @@ const PORT = process.env.PORT || 5000;
 const app = express()
 
 app.set('views', 'views');
-
 app.use(express.json());
 app.use(cookieParser('secret key123331234'));
 const corsConfig = {
@@ -38,6 +37,7 @@ app.use('/api/center', center)
 app.use('/api/seminar', seminar)
 app.use('/api/city', city)
 app.use(express.static('public'));
+app.use('/static', express.static('public'))
 app.use(errorMiddleware);
 app.get('/', (req, res, next) =>{
 	console.log(req.headers.host);

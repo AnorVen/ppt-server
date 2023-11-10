@@ -74,7 +74,7 @@ class UserService {
 		const users = await UserModel.find();
 		return users.map(user => new UserDto(user));
 	}
-
+	
 	async getUser(id) {
 		let user = await UserModel.findById(id).exec();
 		return new UserDto(user);
@@ -82,7 +82,7 @@ class UserService {
 
 	updateUser = async (user) => {
 		console.log('user', user);
-		const newUser = await UserModel.findOneAndUpdate({ _id: user.id }, { ...user });
+		const newUser = await UserModel.findOneAndUpdate({ _id: user.id }, { $set: { ...user } });
 		if (fs.existsSync(`./public/images/${user.id}/newAvatar.jpg`)) {
 			fs.rename(`./public/images/${user.id}/newAvatar.jpg`, `./public/images/${user.id}/avatar.jpg`, () => ({}));
 		}
@@ -93,7 +93,6 @@ class UserService {
 
 	updateUsers = async (users) => {
 		const newUser = await UserModel.findOneAndUpdate({ _id: user._id }, { ...user });
-
 		return newUser;
 	};
 

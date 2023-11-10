@@ -12,6 +12,7 @@ export class UserDto {
 	master;
 	superUser;
 	type;
+	avatar
 
 	constructor({
 		            email,
@@ -27,9 +28,11 @@ export class UserDto {
 		            master,
 		            superUser,
 		            type,
+		            avatar
 	            }) {
 		this.email = email;
 		this.id = _id;
+		this.avatar = avatar || '';
 		this.phone = phone;
 		this.name = name;
 		this.second_name = second_name;
@@ -41,5 +44,6 @@ export class UserDto {
 		this.master = master;
 		this.superUser = superUser;
 		this.type = type;
+
 	}
 }
