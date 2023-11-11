@@ -24,6 +24,7 @@ router.post('/upload', async (req, res) => {
 			if (err) throw err; // не удалось создать папку
 		});
 	}
+	
 	await req.files.file.mv(`public/images/${id}/${name}`);
 
 	await sharp(`./public/images/${id}/${name}`)
