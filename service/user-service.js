@@ -7,9 +7,7 @@ import { tokenService } from './token-service.js';
 
 class UserService {
 	async addUser(newUser) {
-		console.log('newUser', newUser);
 		const candidate = await UserModel.findOne({ email: newUser.email });
-		console.log('candidate', candidate);
 		if (candidate) {
 			throw ApiError.BadRequest(`Пользователь с почтовым адресом ${newUser.email} уже существует`);
 		}
@@ -71,7 +69,7 @@ class UserService {
 	}
 
 	async getAllUsers() {
-		const users = await UserModel.find();
+		const users = await UserModel.find().sort({surname: 1});
 		return users.map(user => new UserDto(user));
 	}
 	

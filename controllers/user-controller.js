@@ -6,7 +6,8 @@ import { userService } from '../service/user-service.js';
 class UserController {
 	async refresh(req, res, next) {
 		try {
-			const { refreshToken } = req;
+			const {refreshToken} = req.cookies;
+			console.log(req.cookies);
 			const userData = await userService.refresh(refreshToken);
 			if (fs.existsSync(`public/images/${userData.id}/avatar.jpg`)) {
 				userData.avatar = `/static/images/${userData.id}/avatar.jpg`;
@@ -84,6 +85,11 @@ class UserController {
 				}
 				return user
 			})
+			users.sort((a,b) => {
+				if(a.avatar === `/static/images/noAva.jpg` && b.avatar !== `/static/images/noAva.jpg`) return 1
+				if(a.avatar !== `/static/images/noAva.jpg` && b.avatar === `/static/images/noAva.jpg`) return -1
+				return 0
+			})
 			return res.json({ success: true, payload: users, errors: false });
 		}
 		catch (e) {
@@ -109,12 +115,18 @@ class UserController {
 
 	async updateUsers(req, res, next) {
 		try {
-			const users = await userService.updateUsers(req.body);
+			let users = await userService.updateUsers(req.body);
 			if (fs.existsSync(`public/images/${user.id}/avatar.jpg`)) {
 				newUser.avatar = `/static/images/${user.id}/avatar.jpg`
 			} else {
 				newUser.avatar = `/static/images/noAva.jpg`
 			}
+
+			users.sort((a,b) => {
+				if(a.avatar === `/static/images/noAva.jpg` && b.avatar !== `/static/images/noAva.jpg`) return -1
+				if(a.avatar !== `/static/images/noAva.jpg` && b.avatar === `/static/images/noAva.jpg`) return 1
+				return 0
+			})
 
 			return res.json({ success: true, payload: users, errors: false });
 		}
@@ -145,7 +157,7 @@ class UserController {
 
 	async deleteUser(req, res, next) {
 		try {
-			await userService.deleteUser(req.body._id);
+			await userService.deleteUser(req.body.id);
 			return res.status(200).json(`Пользователь ${req.body.surname} ${req.body.name} удален`);
 		}
 		catch (e) {
