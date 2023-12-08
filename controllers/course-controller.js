@@ -32,9 +32,9 @@ class CourseController {
 	async updateCourse(req, res, next) {
 		try {
 			const course = await courseService.updateCourse(req.body);
-			return res.json(
-				{ success: true, payload: course, errors: false },
-			);
+			return res.json({
+					success: true, payload: course, errors: false,
+				});
 		}
 		catch (e) {
 			return res.json({

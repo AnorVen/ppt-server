@@ -17,17 +17,17 @@ dotenv.config()
 const PORT = process.env.PORT || 5000;
 const app = express()
 
-app.set('views', 'views');
-app.use(express.json());
-app.use(cookieParser('secret key123331234'));
+
 const corsConfig = {
-	"origin": "*",
+	"origin": "http://localhost:3000",
 	"methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
 	"preflightContinue": false,
 	"optionsSuccessStatus": 204,
 	credentials: true,
 };
+app.use(cookieParser());
 app.use(cors(corsConfig));
+app.options('*', cors(corsConfig))
 app.use(fileUpload({
 	limits: {
 		fileSize: 5000000
@@ -36,17 +36,23 @@ app.use(fileUpload({
 	safeFileNames: true,
 
 }));
+
+app.use(express.urlencoded({extended: true}))
+app.set('views', 'views');
+app.use(express.json());
 app.use(express.json({limit: '50mb'}));
-app.options('*', cors(corsConfig))
+app.use(errorMiddleware);
+app.use(express.static('public'));
+
 app.use('/api', router);
 app.use('/api/user', user)
 app.use('/api/course', course)
 app.use('/api/center', center)
 app.use('/api/seminar', seminar)
 app.use('/api/city', city)
-app.use(express.static('public'));
+
 app.use('/static', express.static('public'))
-app.use(errorMiddleware);
+
 app.get('/', (req, res, next) =>{
 	console.log(req.headers.host);
 })

@@ -7,7 +7,7 @@ class UserController {
 	async refresh(req, res, next) {
 		try {
 			const {refreshToken} = req.cookies;
-			console.log(req.cookies);
+			console.log('req.cookies', req);
 			const userData = await userService.refresh(refreshToken);
 			if (fs.existsSync(`public/images/${userData.id}/avatar.jpg`)) {
 				userData.avatar = `/static/images/${userData.id}/avatar.jpg`;
@@ -54,6 +54,8 @@ class UserController {
 			res.cookie('refreshToken', userData.refreshToken, {
 				maxAge: 30 * 24 * 60 * 60 * 1000,
 				httpOnly: true,
+				path: '/',
+
 			});
 			return res.json({ success: true, payload: userData, errors: false });
 		}
