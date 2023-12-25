@@ -10,7 +10,7 @@ const SeminarSchema = new Schema({
     organizer: {type: String, required: true},
     organizer_contacts: {type: String, required: false},
     organizer_center: {type: String, required: false},
-    trainer: {type: String, required: false},
+    main_trainer: { type: String, required: true },
     city: {type: String, required: false},
 })
 
