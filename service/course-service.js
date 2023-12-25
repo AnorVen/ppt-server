@@ -23,8 +23,8 @@ class CourseService {
 	};
 
 	deleteCourse = async (id) => {
-		const finderCourse = await CourseModel.findByIdAndDelete(id).exec();
-		return true
+		console.log('deleteCourse', id);
+		return CourseModel.findByIdAndDelete(id).exec();
 	};
 }
 

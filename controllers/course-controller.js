@@ -65,6 +65,7 @@ class CourseController {
 
 	async deleteCourse(req, res, next) {
 		try {
+			console.log('req.body._id', req.body._id);
 			await courseService.deleteCourse(req.body._id);
 			return res.json({ success: true, payload: `Курс ${req.body.title} удален`, errors: false });
 		}

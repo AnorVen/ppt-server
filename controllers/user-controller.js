@@ -79,9 +79,9 @@ class UserController {
 			const users = await userService.getAllUsers();
 			users.forEach(user => {
 				if (fs.existsSync(`public/images/${user.id}/avatar.jpg`)) {
-					user.avatar = `/images/${user.id}/avatar.jpg`
+					user.avatar = `/static/images/${user.id}/avatar.jpg`
 				} else {
-					user.avatar = `/images/noAva.jpg`
+					user.avatar = `/static/images/noAva.jpg`
 				}
 				return user
 			})
@@ -110,9 +110,9 @@ class UserController {
 				console.log('getUser', req.body.id);
 				let user = await userService.getUser(req.body.id);
 				if (fs.existsSync(`public/images/${user.id}/avatar.jpg`)) {
-					user.avatar = `/images/${user.id}/avatar.jpg`
+					user.avatar = `/static/images/${user.id}/avatar.jpg`
 				} else {
-					user.avatar = `/images/noAva.jpg`
+					user.avatar = `/static/images/noAva.jpg`
 				}
 				return res.json({ success: true, payload: user, errors: false });
 			} else {

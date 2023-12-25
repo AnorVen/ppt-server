@@ -25,7 +25,7 @@ class SeminarService {
 	}
 
 	deleteSeminar = async (id) =>{
-		return await SeminarModel.findByIdAndDelete(id);
+		return SeminarModel.findByIdAndDelete(id);
 
 	}
 }
