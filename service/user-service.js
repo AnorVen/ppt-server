@@ -27,6 +27,21 @@ class UserService {
 		return { ...tokens, user: userDto };
 	}
 
+	updateUser = async (user) => {
+		if (user.password){
+			const hashPassword = await bcrypt.hash(user.password, 3);
+			user.password = hashPassword
+		}
+
+
+		const newUser = await UserModel.findOneAndUpdate({ _id: user.id }, { $set: { ...user } });
+		if (fs.existsSync(`./public/images/${user.id}/newAvatar.jpg`)) {
+			fs.rename(`./public/images/${user.id}/newAvatar.jpg`, `./public/images/${user.id}/avatar.jpg`, () => ({}));
+		}
+		return new UserDto(newUser);
+	};
+
+
 	async refresh(refreshToken) {
 		console.log('refreshToken', refreshToken);
 		if (!refreshToken) {
@@ -63,6 +78,7 @@ class UserService {
 		return { ...tokens, user: userDto };
 	}
 
+
 	async logout(refreshToken) {
 		const token = await tokenService.removeToken(refreshToken);
 		return token;
@@ -72,22 +88,11 @@ class UserService {
 		const users = await UserModel.find().sort({surname: 1});
 		return users.map(user => new UserDto(user));
 	}
-	
+
 	async getUser(id) {
 		let user = await UserModel.findById(id).exec();
 		return new UserDto(user);
 	}
-
-	updateUser = async (user) => {
-		console.log('user', user);
-		const newUser = await UserModel.findOneAndUpdate({ _id: user.id }, { $set: { ...user } });
-		if (fs.existsSync(`./public/images/${user.id}/newAvatar.jpg`)) {
-			fs.rename(`./public/images/${user.id}/newAvatar.jpg`, `./public/images/${user.id}/avatar.jpg`, () => ({}));
-		}
-		console.log('newUser', newUser);
-		return new UserDto(newUser);
-	};
-
 
 	updateUsers = async (users) => {
 		const newUser = await UserModel.findOneAndUpdate({ _id: user._id }, { ...user });
