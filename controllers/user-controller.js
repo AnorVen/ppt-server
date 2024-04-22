@@ -126,14 +126,13 @@ class UserController {
 
 	async deleteUser(req, res, next) {
 		try {
-			await userService.deleteUser(req.body._id);
-			return res.status(200).json(`Пользователь ${req.body.surname} ${req.body.name} удален`);
+			await userService.deleteUser(req.body.id);
+			return res.json({ success: true, errors: false });
 		}
 		catch (e) {
 			next(e);
 		}
 	}
 }
-
 
 export const userController = new UserController();
