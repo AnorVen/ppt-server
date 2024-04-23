@@ -49,11 +49,9 @@ class CityController {
 				console.log('req.body.id', req.body._id);
 				let city = await cityService.getCity(req.body._id);
 
-				return res.json(
-					{ success: true, payload: city, errors: false },
-				);
+				return res.json({ success: true, payload: city, errors: false },);
 			} else {
-				return res.status(200).json(`Город отсутствует`);
+				return res.json({ success: false, payload: {}, errors: `Город отсутствует` },);
 			}
 		}
 		catch (e) {
@@ -65,8 +63,8 @@ class CityController {
 
 	async deleteCity(req, res, next) {
 		try {
-			await cityService.deleteCity(req.body._id);
-			return res.status(200).json(`Город удален`);
+			await cityService.deleteCity(req.body.id);
+			return res.json({ success: true, payload: `Город удален` , errors: [] },);
 		}
 		catch (e) {
 			return res.json({

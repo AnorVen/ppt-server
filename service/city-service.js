@@ -26,14 +26,12 @@ class CityService {
 
 	updateCity = async (city) => {
 		const name = city.name.toLowerCase()
-		const newCity = await CityModel.findOneAndUpdate({ _id: city._id }, { name }, {
-			new: true,
-		});
+		const newCity = await CityModel.findOneAndUpdate({ _id: city._id }, { name });
 		return newCity;
 	};
 
 	deleteCity = async (id) => {
-		const finderCity = await CityModel.findByIdAndDelete(id).exec();
+		await CityModel.findByIdAndDelete(id).exec();
 		return true
 	};
 }
