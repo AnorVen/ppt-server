@@ -14,6 +14,7 @@ const CourseSchema = new Schema({
 		dates: [String],
 		count: String,
 		them: String,
+		description: String ,
 	}],
 });
 
